@@ -408,8 +408,8 @@ function closeVideo() {
 // Lottie animaties laden als bestanden beschikbaar zijn
 if (typeof lottie !== 'undefined') {
   try {
-    lottie.loadAnimation({ container: document.getElementById('lottie-1'), renderer: 'svg', loop: true, autoplay: true, path: 'Profielverrijkingen_v3.json' });
-    lottie.loadAnimation({ container: document.getElementById('lottie-2'), renderer: 'svg', loop: true, autoplay: true, path: 'Gepersonaliseerde_campagnes_-_alleen_campagne_v2.json' });
+    lottie.loadAnimation({ container: document.getElementById('lottie-1'), renderer: 'svg', loop: true, autoplay: true, path: 'https://raw.githubusercontent.com/supershief/portfolio/main/webpagina-en-motion-graphics/Profielverrijkingen_v3.json' });
+    lottie.loadAnimation({ container: document.getElementById('lottie-2'), renderer: 'svg', loop: true, autoplay: true, path: 'https://raw.githubusercontent.com/supershief/portfolio/main/webpagina-en-motion-graphics/Gepersonaliseerde_campagnes_-_alleen_campagne_v2.json' });
   } catch(e) { console.log('Lottie kon niet laden:', e); }
 }
 </script>
