@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MailBlue Webdesign & Motion Graphics Shiva Rampersad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #000;
+  --white: #fff;
+  --body: #3C3C3C;
+  --muted: #888;
+  --border: #e8e8e8;
+  --bg-light: #f8f8f6;
+  --radius: 999px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Open Sans', sans-serif; color: var(--body); background: var(--white); -webkit-font-smoothing: antialiased; }
+
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 20px 32px; transition: background 0.3s, box-shadow 0.3s, padding 0.3s; }
+.nav.scrolled { background: rgba(255,255,255,0.96); box-shadow: 0 1px 0 var(--border); padding: 14px 32px; }
+.nav.scrolled .nav-back { color: var(--body); }
+.nav.scrolled .nav-logo { color: black; }
+.nav-logo { text-decoration: none; color: white; display: flex; align-items: center; transition: color 0.3s; }
+.nav-back { font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 0.06em; color: var(--white); text-decoration: none; opacity: 0.7; transition: opacity 0.2s, color 0.3s; }
+.nav-back:hover { opacity: 1; }
+
+.hero { background: #0e0e0f; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 24px 80px; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(0,105,180,0.1) 0%, transparent 65%); pointer-events: none; }
+.hero-label { display: inline-block; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); padding: 5px 16px; border-radius: var(--radius); margin-bottom: 32px; }
+.hero-title { font-family: 'Alfa Slab One', serif; font-size: clamp(32px, 5vw, 68px); font-weight: 400; color: var(--white); line-height: 1.05; margin-bottom: 24px; }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.55); max-width: 580px; line-height: 1.75; margin: 0 auto 56px; }
+
+.hero-devices { display: flex; align-items: flex-end; justify-content: center; gap: 24px; width: 100%; max-width: 960px; margin: 0 auto; }
+.device-desktop { flex: 1; max-width: 640px; }
+.device-mobile { width: 140px; flex-shrink: 0; }
+.device-frame { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #111; }
+.device-frame.mobile { border-radius: 20px; }
+.device-frame video { width: 100%; display: block; }
+.device-label { font-size: 11px; color: rgba(255,255,255,0.3); text-align: center; margin-top: 10px; font-family: 'Courier New', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.device-mockup { position: relative; cursor: pointer; }
+.device-mockup img { width: 100%; display: block; }
+.play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-radius: 12px; transition: background 0.2s; }
+.device-mobile .play-overlay { border-radius: 20px; }
+.device-mockup:hover .play-overlay { background: rgba(0,0,0,0.4); }
+.play-btn { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border: 1.5px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
+.device-mobile .play-btn { width: 40px; height: 40px; }
+.device-mockup:hover .play-btn { transform: scale(1.1); background: rgba(255,255,255,0.25); }
+
+.video-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 500; align-items: center; justify-content: center; padding: 20px; }
+.video-modal.open { display: flex; }
+.video-modal video { max-width: 100%; max-height: 88vh; border-radius: 8px; display: block; }
+.video-modal-close { position: absolute; top: 20px; right: 24px; font-size: 36px; color: rgba(255,255,255,0.6); cursor: pointer; background: none; border: none; line-height: 1; }
+.video-modal-close:hover { color: white; }
+
+.section { max-width: 800px; margin: 0 auto; padding: 100px 24px; }
+.section-tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--black); padding: 4px 14px; border-radius: var(--radius); margin-bottom: 20px; }
+.section-title { font-family: 'Alfa Slab One', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 400; color: var(--black); line-height: 1.15; margin-bottom: 20px; }
+.section-body { font-size: 17px; line-height: 1.85; color: var(--body); max-width: 620px; }
+.section-body + .section-body { margin-top: 16px; }
+.divider { width: 100%; height: 1px; background: var(--border); max-width: 800px; margin: 0 auto; }
+
+.meta-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-top: 48px; }
+.meta-item { background: var(--white); padding: 28px 24px; }
+.meta-label { font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); opacity: 0.5; margin-bottom: 8px; }
+.meta-value { font-size: 15px; font-weight: 700; color: var(--black); line-height: 1.5; }
+
+.steps { margin-top: 40px; display: flex; flex-direction: column; gap: 28px; }
+.step { display: flex; gap: 20px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--black); color: var(--white); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.step-title { font-size: 18px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+.step-body { font-size: 16px; line-height: 1.8; color: var(--body); }
+
+.img-full { width: 100%; border-radius: 16px; display: block; margin-top: 48px; border: 1px solid var(--border); }
+.img-caption { font-size: 13px; color: var(--muted); text-align: center; margin-top: 10px; font-family: 'Courier New', monospace; }
+.img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+.img-grid-item img { width: 100%; border-radius: 12px; display: block; border: 1px solid var(--border); }
+
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+.compare-card { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.compare-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+.compare-card img { width: 100%; display: block; height: 280px; object-fit: cover; object-position: top; }
+.compare-label { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--white); border-top: 1px solid var(--border); }
+.compare-name { font-size: 13px; font-weight: 700; color: var(--black); }
+.compare-hint { font-size: 12px; color: var(--muted); font-family: 'Courier New', monospace; }
+
+.results-section { background: var(--black); padding: 100px 24px; }
+.results-inner { max-width: 800px; margin: 0 auto; }
+.results-tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); padding: 4px 14px; border-radius: var(--radius); margin-bottom: 24px; }
+.results-title { font-family: 'Alfa Slab One', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 400; color: var(--white); margin-bottom: 16px; }
+.results-sub { font-size: 17px; color: rgba(255,255,255,0.55); max-width: 560px; line-height: 1.75; margin-bottom: 56px; }
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; }
+.result-item { background: #0e0e0f; padding: 40px 36px; }
+.result-num { font-family: 'Alfa Slab One', serif; font-size: clamp(40px, 6vw, 64px); font-weight: 400; color: var(--white); margin-bottom: 8px; line-height: 1; }
+.result-label { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+.result-change { font-size: 13px; color: rgba(255,255,255,0.3); margin-top: 6px; font-family: 'Courier New', monospace; }
+
+.cta { background: var(--black); border-top: 1px solid rgba(255,255,255,0.08); padding: 80px 24px; text-align: center; }
+.cta-title { font-family: 'Alfa Slab One', serif; font-size: clamp(28px,4vw,44px); font-weight: 400; color: var(--white); margin-bottom: 32px; }
+.cta-btn { display: inline-block; background: var(--white); color: var(--black); font-family: 'Courier New', monospace; font-size: 16px; padding: 14px 32px; border-radius: var(--radius); text-decoration: none; transition: background 0.2s; }
+.cta-btn:hover { background: #e8e8e8; }
+
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 500; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; object-fit: contain; cursor: default; }
+.lightbox-close { position: absolute; top: 20px; right: 24px; font-size: 36px; color: rgba(255,255,255,0.6); cursor: pointer; background: none; border: none; line-height: 1; }
+.lightbox-close:hover { color: white; }
+
+@media (max-width: 640px) {
+  .meta-grid { grid-template-columns: 1fr; }
+  .img-grid { grid-template-columns: 1fr; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; }
+  .hero-devices { flex-direction: column; align-items: center; }
+  .device-mobile { width: 200px; }
+}
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.hero-label,.hero-title,.hero-sub { animation: fadeUp 0.6s ease both; }
+.hero-label { animation-delay: 0.1s; }
+.hero-title { animation-delay: 0.2s; }
+.hero-sub { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="/portfolio/" class="nav-logo"><svg width="130" height="84" viewBox="0 0 153 81" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M133.099 44.3026L137.423 28.6445C137.78 27.3528 138.955 26.4582 140.295 26.4582H144.191C145.517 26.4582 146.684 27.3354 147.053 28.6098L151.592 44.3026H145.237L144.563 40.879H139.946L139.194 44.3026H133.099ZM140.491 37.6888H143.941L142.255 29.8819L140.491 37.6888Z" fill="currentColor"/><path d="M122.301 44.3026C120.981 44.3026 119.819 43.4351 119.444 42.1703L114.785 26.4582H120.906L123.656 37.585L126.405 26.4582H132.267L127.344 42.212C126.955 43.4558 125.803 44.3026 124.5 44.3026H122.301Z" fill="currentColor"/><path d="M108.381 44.3026C106.762 44.3026 105.45 42.9905 105.45 41.3718V29.3891C105.45 27.7704 106.762 26.4582 108.381 26.4582C109.999 26.4582 111.311 27.7704 111.311 29.3891V41.3718C111.311 42.9905 109.999 44.3026 108.381 44.3026Z" fill="currentColor"/><path d="M84.7787 44.3026C83.956 44.3026 83.2891 43.6357 83.2891 42.813V27.9479C83.2891 27.1252 83.956 26.4582 84.7787 26.4582H87.6351C88.4579 26.4582 89.1248 27.1252 89.1248 27.9479V33.1758H94.6493V27.9479C94.6493 27.1252 95.3163 26.4582 96.139 26.4582H99.0213C99.844 26.4582 100.511 27.1252 100.511 27.9479V42.813C100.511 43.6357 99.844 44.3026 99.0213 44.3026H96.139C95.3163 44.3026 94.6493 43.6357 94.6493 42.813V37.2738H89.1248V42.813C89.1248 43.6357 88.4579 44.3026 87.6351 44.3026H84.7787Z" fill="currentColor"/><path d="M72.0463 44.7176C70.9569 44.7176 69.8503 44.5793 68.7264 44.3026C67.6025 44.0433 66.6514 43.6888 65.8733 43.2392L66.8071 39.0116C67.81 39.5476 68.7437 39.9021 69.6082 40.075C70.4901 40.2306 71.3027 40.3084 72.0463 40.3084C72.7379 40.3084 73.2566 40.196 73.6025 39.9712C73.9656 39.7464 74.1471 39.4439 74.1471 39.0634C74.1471 38.7176 73.9483 38.4496 73.5506 38.2594C73.1529 38.0519 72.6342 37.8617 71.9944 37.6888C71.3719 37.5159 70.7062 37.317 69.9973 37.0923C69.2883 36.8502 68.614 36.5389 67.9742 36.1585C67.3517 35.7608 66.8416 35.2421 66.444 34.6023C66.0463 33.9453 65.8474 33.124 65.8474 32.1384C65.8474 30.8934 66.15 29.8214 66.7552 28.9222C67.3604 28.0058 68.2249 27.3055 69.3489 26.8214C70.4728 26.3199 71.7955 26.0692 73.3172 26.0692C74.3373 26.0692 75.3316 26.2075 76.2999 26.4842C77.2855 26.7436 78.0722 27.098 78.6601 27.5476L77.7783 31.3603C76.8964 30.9972 76.101 30.7378 75.3921 30.5822C74.7004 30.4093 74.0434 30.3228 73.4209 30.3228C72.6947 30.3228 72.1414 30.4266 71.761 30.634C71.3806 30.8415 71.1904 31.1182 71.1904 31.464C71.1904 31.7925 71.3892 32.0606 71.7869 32.2681C72.1846 32.4755 72.6947 32.6744 73.3172 32.8646C73.9396 33.0548 74.6053 33.2709 75.3143 33.513C76.0232 33.7551 76.6889 34.075 77.3114 34.4727C77.9339 34.8704 78.444 35.3891 78.8417 36.0289C79.2394 36.6686 79.4382 37.4727 79.4382 38.441C79.4382 40.4467 78.7811 41.9943 77.467 43.0836C76.1702 44.173 74.3633 44.7176 72.0463 44.7176Z" fill="currentColor"/><path d="M66.0898 53.3756H67.3093C68.1193 53.3756 68.7685 53.6519 69.2568 54.2046C69.7452 54.7543 69.9893 55.5103 69.9893 56.4723C69.9893 57.4549 69.7408 58.2167 69.2437 58.7576C68.7495 59.2957 68.1149 59.5647 67.34 59.5647H66.0898V53.3756ZM66.8092 58.9375H67.318C67.9058 58.9375 68.3708 58.7196 68.7129 58.2839C69.055 57.8482 69.2261 57.2443 69.2261 56.4723C69.2261 55.7062 69.0536 55.1038 68.7085 54.6652C68.3664 54.2236 67.9029 54.0028 67.318 54.0028H66.8092V58.9375ZM75.1697 57.3014H72.0334C72.0334 57.819 72.1825 58.2459 72.4808 58.5822C72.782 58.9185 73.1505 59.0866 73.5862 59.0866C74.0014 59.0866 74.4298 59.0121 74.8714 58.8629L74.9898 59.4112C74.5863 59.5925 74.1155 59.6832 73.5774 59.6832C72.899 59.6832 72.3521 59.4653 71.9369 59.0296C71.5216 58.5939 71.314 58.0061 71.314 57.2663C71.314 56.5411 71.4997 55.9635 71.8711 55.5337C72.2454 55.1009 72.7279 54.8845 73.3186 54.8845C73.845 54.8845 74.2851 55.0848 74.6389 55.4854C74.9927 55.886 75.1697 56.4197 75.1697 57.0864V57.3014ZM74.424 56.7443C74.424 56.3875 74.3128 56.0878 74.0906 55.8451C73.8684 55.5995 73.6198 55.4766 73.3449 55.4766C72.9911 55.4766 72.6972 55.5936 72.4633 55.8275C72.2322 56.0615 72.1036 56.3671 72.0773 56.7443H74.424ZM79.9508 55.6477C79.5677 55.522 79.2066 55.4591 78.8674 55.4591C78.496 55.4591 78.2021 55.522 77.9857 55.6477C77.7693 55.7705 77.6611 55.9357 77.6611 56.1434C77.6611 56.275 77.7108 56.3905 77.8103 56.4899C77.9097 56.5864 78.1085 56.677 78.4068 56.7618L79.0604 56.9505C79.3616 57.0353 79.6072 57.1376 79.7973 57.2575C79.9874 57.3745 80.1292 57.5178 80.2228 57.6874C80.3193 57.8541 80.3675 58.0485 80.3675 58.2708C80.3675 58.7065 80.1847 59.0515 79.8192 59.3059C79.4537 59.5574 78.9887 59.6832 78.4243 59.6832C77.8629 59.6832 77.3994 59.5984 77.0339 59.4288L77.1655 58.8366C77.5485 59.0179 77.9594 59.1086 78.398 59.1086C78.7782 59.1086 79.0867 59.0384 79.3236 58.898C79.5633 58.7547 79.6832 58.5661 79.6832 58.3322C79.6832 58.1743 79.6233 58.0339 79.5034 57.9111C79.3864 57.7853 79.1086 57.6552 78.67 57.5207C78.3161 57.4125 78.0559 57.3321 77.8892 57.2794C77.7225 57.2239 77.5675 57.1435 77.4243 57.0382C77.281 56.9329 77.1713 56.8072 77.0953 56.661C77.0222 56.5147 76.9856 56.351 76.9856 56.1697C76.9856 55.7749 77.1581 55.462 77.5032 55.231C77.8483 55 78.3059 54.8845 78.8761 54.8845C79.2446 54.8845 79.654 54.9473 80.1043 55.0731L79.9508 55.6477ZM84.3503 53.2659C84.479 53.2659 84.5887 53.3127 84.6793 53.4063C84.77 53.4969 84.8153 53.6066 84.8153 53.7352C84.8153 53.8698 84.77 53.9823 84.6793 54.073C84.5916 54.1636 84.4819 54.209 84.3503 54.209C84.2304 54.209 84.1237 54.1622 84.0301 54.0686C83.9395 53.9721 83.8942 53.861 83.8942 53.7352C83.8942 53.6095 83.9395 53.4998 84.0301 53.4063C84.1237 53.3127 84.2304 53.2659 84.3503 53.2659ZM84.6837 59.5647H83.9994V55.5863H82.6528V54.9941H84.6837V59.5647ZM88.9648 57.8409C88.5379 58.0485 88.3244 58.2313 88.3244 58.3892C88.3244 58.474 88.3727 58.5456 88.4692 58.6041C88.5686 58.6626 88.7031 58.6919 88.8727 58.6919L90.4123 58.648C90.7779 58.648 91.0615 58.7372 91.2633 58.9156C91.468 59.0939 91.5703 59.3469 91.5703 59.6744C91.5703 60.192 91.3393 60.6043 90.8773 60.9114C90.4152 61.2184 89.8757 61.3719 89.2587 61.3719C88.7528 61.3719 88.339 61.2652 88.0174 61.0517C87.6957 60.8412 87.5349 60.5678 87.5349 60.2315C87.5349 59.8659 87.7834 59.5574 88.2805 59.3059C87.8682 59.1129 87.6621 58.8761 87.6621 58.5954C87.6621 58.2737 87.9282 57.9739 88.4604 57.6961C88.2147 57.547 88.0261 57.354 87.8945 57.1171C87.7629 56.8803 87.6972 56.6303 87.6972 56.3671C87.6972 55.9372 87.8434 55.5848 88.1358 55.31C88.4282 55.0322 88.7937 54.8932 89.2324 54.8932C89.5482 54.8932 89.8333 54.959 90.0877 55.0906L91.4431 54.8845V55.5512H90.5702C90.7018 55.7822 90.7676 56.0542 90.7676 56.3671C90.7676 56.7823 90.6229 57.1332 90.3334 57.4198C90.0439 57.7064 89.6769 57.8497 89.2324 57.8497C89.1388 57.8497 89.0496 57.8467 88.9648 57.8409ZM89.2324 57.3189C89.4839 57.3189 89.6886 57.2327 89.8465 57.0601C90.0073 56.8847 90.0877 56.6566 90.0877 56.3758C90.0877 56.0805 90.0102 55.8495 89.8552 55.6828C89.7003 55.5161 89.4926 55.4328 89.2324 55.4328C88.9897 55.4328 88.785 55.5205 88.6183 55.696C88.4545 55.8685 88.3727 56.0951 88.3727 56.3758C88.3727 56.6507 88.4545 56.8774 88.6183 57.0557C88.785 57.2312 88.9897 57.3189 89.2324 57.3189ZM89.2587 60.8412C89.709 60.8412 90.0921 60.7403 90.4079 60.5385C90.7267 60.3397 90.886 60.0926 90.886 59.7972C90.886 59.4931 90.6609 59.341 90.2105 59.341C90.0614 59.341 89.8041 59.3498 89.4385 59.3674C89.2075 59.3791 89.0262 59.3849 88.8946 59.3849C88.8303 59.3849 88.7294 59.4375 88.592 59.5428C88.4575 59.6481 88.3536 59.7534 88.2805 59.8586C88.2104 59.9668 88.1753 60.0779 88.1753 60.192C88.1753 60.3704 88.2747 60.5224 88.4735 60.6482C88.6724 60.7768 88.9341 60.8412 89.2587 60.8412ZM96.6147 59.5647H95.9304V56.6346C95.9304 56.2282 95.8646 55.9343 95.733 55.753C95.6043 55.5688 95.4011 55.4766 95.1233 55.4766C94.7051 55.4766 94.2563 55.7369 93.7767 56.2574V59.5647H93.0924V54.9941H93.7767V55.6653C94.2679 55.1447 94.7855 54.8845 95.3295 54.8845C96.1863 54.8845 96.6147 55.4021 96.6147 56.4373V59.5647ZM108.322 59.5297C108.193 59.5823 108.034 59.6086 107.844 59.6086C107.689 59.6086 107.535 59.5545 107.383 59.4463C107.231 59.3352 107.035 59.1203 106.795 58.8015C106.339 59.3893 105.788 59.6832 105.142 59.6832C104.624 59.6832 104.186 59.5194 103.826 59.1919C103.469 58.8615 103.291 58.4521 103.291 57.9637C103.291 57.6508 103.384 57.3555 103.571 57.0777C103.759 56.7969 104.108 56.4797 104.62 56.1258C104.134 55.5556 103.892 55.0585 103.892 54.6345C103.892 54.2251 104.026 53.8932 104.295 53.6387C104.567 53.3843 104.909 53.2571 105.322 53.2571C105.705 53.2571 106.021 53.3668 106.269 53.5861C106.518 53.8025 106.642 54.1037 106.642 54.4897C106.642 54.7675 106.557 55.0336 106.388 55.288C106.218 55.5424 105.901 55.8392 105.436 56.1785L106.73 57.7751C106.928 57.2663 107.076 56.9124 107.173 56.7136C107.272 56.5147 107.411 56.3437 107.589 56.2004C107.768 56.0542 107.997 55.9811 108.278 55.9811H108.313V56.582H108.278C108.1 56.582 107.929 56.677 107.765 56.8671C107.601 57.0572 107.385 57.5222 107.116 58.262C107.335 58.5252 107.506 58.7138 107.629 58.8278C107.752 58.9419 107.889 58.9989 108.041 58.9989C108.111 58.9989 108.205 58.9901 108.322 58.9726V59.5297ZM105.115 55.7661C105.461 55.5264 105.7 55.3143 105.835 55.1301C105.972 54.9459 106.041 54.75 106.041 54.5423C106.041 54.3142 105.971 54.1417 105.83 54.0247C105.693 53.9078 105.526 53.8493 105.33 53.8493C105.102 53.8493 104.911 53.9195 104.756 54.0598C104.604 54.1973 104.528 54.3888 104.528 54.6345C104.528 54.9503 104.724 55.3275 105.115 55.7661ZM106.427 58.3541L104.953 56.5381C104.608 56.7896 104.364 57.0221 104.221 57.2356C104.08 57.4461 104.01 57.6801 104.01 57.9374C104.01 58.2591 104.123 58.5296 104.348 58.7489C104.576 58.9682 104.846 59.0779 105.159 59.0779C105.648 59.0779 106.07 58.8366 106.427 58.3541ZM114.647 53.3756H115.866C116.676 53.3756 117.326 53.6519 117.814 54.2046C118.302 54.7543 118.547 55.5103 118.547 56.4723C118.547 57.4549 118.298 58.2167 117.801 58.7576C117.307 59.2957 116.672 59.5647 115.897 59.5647H114.647V53.3756ZM115.366 58.9375H115.875C116.463 58.9375 116.928 58.7196 117.27 58.2839C117.612 57.8482 117.783 57.2443 117.783 56.4723C117.783 55.7062 117.611 55.1038 117.266 54.6652C116.924 54.2236 116.46 54.0028 115.875 54.0028H115.366V58.9375ZM123.727 57.3014H120.591C120.591 57.819 120.74 58.2459 121.038 58.5822C121.339 58.9185 121.708 59.0866 122.143 59.0866C122.559 59.0866 122.987 59.0121 123.429 58.8629L123.547 59.4112C123.143 59.5925 122.673 59.6832 122.135 59.6832C121.456 59.6832 120.909 59.4653 120.494 59.0296C120.079 58.5939 119.871 58.0061 119.871 57.2663C119.871 56.5411 120.057 55.9635 120.428 55.5337C120.803 55.1009 121.285 54.8845 121.876 54.8845C122.402 54.8845 122.842 55.0848 123.196 55.4854C123.55 55.886 123.727 56.4197 123.727 57.0864V57.3014ZM122.981 56.7443C122.981 56.3875 122.87 56.0878 122.648 55.8451C122.426 55.5995 122.177 55.4766 121.902 55.4766C121.548 55.4766 121.254 55.5936 121.02 55.8275C120.789 56.0615 120.661 56.3671 120.634 56.7443H122.981ZM129.192 54.9941L127.46 59.5647H126.837L125.113 54.9941H125.859L127.153 58.6304L128.447 54.9941H129.192ZM134.517 57.3014H131.381C131.381 57.819 131.53 58.2459 131.829 58.5822C132.13 58.9185 132.498 59.0866 132.934 59.0866C133.349 59.0866 133.778 59.0121 134.219 58.8629L134.338 59.4112C133.934 59.5925 133.463 59.6832 132.925 59.6832C132.247 59.6832 131.7 59.4653 131.285 59.0296C130.869 58.5939 130.662 58.0061 130.662 57.2663C130.662 56.5411 130.847 55.9635 131.219 55.5337C131.593 55.1009 132.076 54.8845 132.666 54.8845C133.193 54.8845 133.633 55.0848 133.987 55.4854C134.34 55.886 134.517 56.4197 134.517 57.0864V57.3014ZM133.772 56.7443C133.772 56.3875 133.661 56.0878 133.438 55.8451C133.216 55.5995 132.968 55.4766 132.693 55.4766C132.339 55.4766 132.045 55.5936 131.811 55.8275C131.58 56.0615 131.451 56.3671 131.425 56.7443H133.772ZM139.443 59.5647H137.575V53.9677H136.382V53.3756H138.259V58.9726H139.443V59.5647ZM143.4 54.8845C144.028 54.8845 144.529 55.1038 144.9 55.5424C145.271 55.9811 145.457 56.5586 145.457 57.2751C145.457 57.9973 145.271 58.5793 144.9 59.0208C144.529 59.4624 144.028 59.6832 143.4 59.6832C142.768 59.6832 142.267 59.4639 141.895 59.0252C141.527 58.5837 141.343 58.0003 141.343 57.2751C141.343 56.5557 141.528 55.9781 141.9 55.5424C142.271 55.1038 142.771 54.8845 143.4 54.8845ZM143.4 59.0866C143.815 59.0866 144.143 58.9112 144.382 58.5603C144.622 58.2094 144.742 57.7839 144.742 57.2838C144.742 56.7575 144.624 56.3247 144.387 55.9855C144.15 55.6462 143.821 55.4766 143.4 55.4766C142.976 55.4766 142.647 55.6448 142.413 55.9811C142.179 56.3144 142.062 56.7487 142.062 57.2838C142.062 57.7926 142.18 58.221 142.417 58.569C142.654 58.9141 142.982 59.0866 143.4 59.0866ZM147.729 55.5863C147.881 55.3758 148.086 55.2061 148.343 55.0775C148.603 54.9488 148.877 54.8845 149.163 54.8845C149.69 54.8845 150.102 55.1023 150.4 55.538C150.702 55.9708 150.852 56.5352 150.852 57.2312C150.852 57.933 150.694 58.5179 150.379 58.9857C150.066 59.4507 149.643 59.6832 149.111 59.6832C148.827 59.6832 148.561 59.613 148.313 59.4726C148.067 59.3293 147.872 59.1407 147.729 58.9068V61.3719H147.045V54.9941H147.729V55.5863ZM147.729 56.2662V58.1655C147.858 58.4228 148.032 58.6378 148.251 58.8103C148.47 58.9828 148.697 59.0691 148.931 59.0691C149.299 59.0691 149.592 58.8966 149.808 58.5515C150.028 58.2064 150.137 57.778 150.137 57.2663C150.137 56.7399 150.033 56.31 149.826 55.9767C149.618 55.6433 149.329 55.4766 148.957 55.4766C148.475 55.4766 148.065 55.7398 147.729 56.2662Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8.76244 39.089C8.76244 41.8232 9.23671 44.4467 10.1074 46.8817C10.5712 48.1789 11.1476 49.4226 11.8247 50.601L15.2653 48.4323L47.5067 28.1105L50.9473 25.9419L60.4692 19.9402C61.503 19.2886 61.8562 17.9911 61.258 17.0421C60.6599 16.0931 59.337 15.8521 58.3032 16.5037L48.3286 22.7906C44.1362 18.5655 38.3248 15.949 31.9024 15.949C19.1226 15.949 8.76244 26.3091 8.76244 39.089ZM13.6478 44.6501C13.1125 42.8907 12.8246 41.0234 12.8246 39.089C12.8246 28.5526 21.366 20.0112 31.9024 20.0112C36.8703 20.0112 41.3946 21.91 44.7893 25.0215L13.6478 44.6501Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M56.3718 41.3053C56.3718 38.5711 55.8976 35.9476 55.0269 33.5126C54.563 32.2154 53.9867 30.9717 53.3095 29.7933L49.869 31.962L17.6275 52.2838L14.187 54.4524L4.66506 60.4541C3.63124 61.1057 3.27811 62.4032 3.87628 63.3522C4.47437 64.3011 5.79729 64.5422 6.83111 63.8906L16.8057 57.6037C20.9981 61.8288 26.8095 64.4453 33.2319 64.4453C46.0117 64.4453 56.3718 54.0852 56.3718 41.3053ZM51.4864 35.7442C52.0218 37.5036 52.3096 39.3709 52.3096 41.3053C52.3096 51.8417 43.7682 60.3831 33.2319 60.3831C28.264 60.3831 23.7397 58.4843 20.345 55.3728L51.4864 35.7442Z" fill="currentColor"/></svg></a>
+  <a href="/portfolio/" class="nav-back">← Portfolio</a>
+</nav>
+
+<section class="hero">
+  <p class="hero-label">Webdesign & Motion Graphics</p>
+  <h1 class="hero-title">MailBlue Profielverrijking<br>& segmentatie</h1>
+  <p class="hero-sub">Een statische functionaliteitenpagina omgebouwd tot een beleving, gebouwd met scroll-triggered animaties en een aantoonbaar beter resultaat.</p>
+  <div class="hero-devices">
+    <div class="device-desktop" onclick="openVideo('screenvideo_Profielverrijking_en_segmentatie.webm')" title="Klik om video af te spelen">
+      <div class="device-mockup">
+        <img src="Group_48580.png" alt="Desktop mockup MailBlue pagina">
+        <div class="play-overlay">
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+      </div>
+      <p class="device-label">Desktop — klik om af te spelen</p>
+    </div>
+    <div class="device-mobile" onclick="openVideo('screenshot_mobiel_profielverrijking.webm')" title="Klik om video af te spelen">
+      <div class="device-mockup">
+        <img src="iPhone_13_mini_-_Midnight_-_Portrait.png" alt="Mobiele mockup MailBlue pagina">
+        <div class="play-overlay">
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+      </div>
+      <p class="device-label">Mobiel — klik om af te spelen</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <p class="section-tag">De opdracht</p>
+  <h2 class="section-title">Van statisch naar beleving</h2>
+  <p class="section-body">De functionaliteitenpagina's van MailBlue vormen de kern van de website: hier legt het product zichzelf uit aan potentiële klanten. De bestaande pagina's waren statisch, generiek en maakten weinig indruk. De opdracht: een beleving creëren die laat zien hoe de functie werkt en de mogelijkheden toont. Hoofddoel: meer conversie.</p>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <p class="meta-label">Type</p>
+      <p class="meta-value">Webdesign & Motion Graphics</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Tools</p>
+      <p class="meta-value">Figma, After Effects, WordPress, Elementor, Motion.page</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Jaar</p>
+      <p class="meta-value">September 2025</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="section-tag">Oud vs nieuw</p>
+  <h2 class="section-title">Hetzelfde onderwerp, een andere beleving</h2>
+  <p class="section-body">Klik op een screenshot om de volledige pagina te bekijken.</p>
+  <div class="compare-grid">
+    <div class="compare-card" onclick="openLightbox('screenshot_oude_pagina_profielverrijking.png', 'Oude pagina')">
+      <img src="screenshot_oude_pagina_profielverrijking.png" alt="Oude pagina">
+      <div class="compare-label">
+        <span class="compare-name">Oude pagina</span>
+        <span class="compare-hint">Klik om te vergroten →</span>
+      </div>
+    </div>
+    <div class="compare-card" onclick="openLightbox('nieuw.png', 'Nieuwe pagina')">
+      <img src="nieuw.png" alt="Nieuwe pagina">
+      <div class="compare-label">
+        <span class="compare-name">Nieuwe pagina</span>
+        <span class="compare-hint">Klik om te vergroten →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="section-tag">Concept</p>
+  <h2 class="section-title">Eerst begrijpen, dan ontwerpen</h2>
+  <p class="section-body">Voordat ik begin met ontwerpen doe ik onderzoek naar de functionaliteit zelf. Ik neem de bestaande pagina door en gebruik de software daadwerkelijk om te begrijpen wat waardevol is voor een bezoeker. Het resultaat is geen uitputtende uiteenzetting, maar een selectie van de meest overtuigende punten, genoeg om iemand te laten besluiten een proefaccount aan te vragen.</p>
+  <p class="section-body">Ik analyseer ook de concurrentie: wat doen andere tools en hoe kan MailBlue zich onderscheiden? Veel concurrenten gebruiken motion graphics, maar focussen op de techniek in plaats van de oplossing. Mijn insteek: animaties die bezwaren wegnemen en de functie uitleggen zonder dat je de tekst nodig hebt.</p>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="section-tag">Structuur</p>
+  <h2 class="section-title">Van papier naar grid</h2>
+  <p class="section-body">Als de inhoud helder is bepaal ik de structuur van de pagina. Ik verdeel de content in logische hoofdstukken en bedenk hoe visuals de tekst versterken. Daarna schets ik de opbouw op papier ook voor digitale projecten geeft dat meer vrijheid in het vroege creatieve proces. Bij het bouwen in Figma werk ik met een grid, zodat elk element bewust geplaatst is en de pagina als geheel samenhangend aanvoelt.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <p class="step-title">Content bepalen</p>
+        <p class="step-body">Welke informatie heeft een bezoeker nodig om overtuigd te raken? Ik selecteer de meest waardevolle punten en overleg met de opdrachtgever of er iets ontbreekt.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <p class="step-title">Brainstormen over visuals</p>
+        <p class="step-body">Ik bedenk hoe de content visueel versterkt kan worden, rekening houdend met motion graphics. Alles moet een logisch en samenhangend geheel vormen.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <p class="step-title">Schetsen op papier</p>
+        <p class="step-body">Hoewel het eindproduct digitaal is, begin ik altijd met pen en papier. Meer vrijheid, snellere ideeontwikkeling.</p>
+      </div>
+    </div>
+  </div>
+
+  <img src="Desktop_-_23.png" alt="Paginastructuur met grid" class="img-full">
+  <p class="img-caption">Paginaopbouw in Figma met actief grid</p>
+  <img src="Desktop_-_24.png" alt="Figma ontwerp detailweergave" class="img-full" style="margin-top:16px">
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="section-tag">Pagina bouwen</p>
+  <h2 class="section-title">Van Figma naar WordPress</h2>
+  <p class="section-body">Als het ontwerp klaar is bouw ik de pagina in WordPress met Elementor. Lottie-animaties worden als JSON-bestand geëxporteerd vanuit After Effects en direct ingeladen op de pagina, gemiddeld slechts een paar honderd kilobyte per animatie.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <p class="step-title">Elementor</p>
+        <p class="step-body">De pagina wordt gebouwd in Elementor. De aanpak is ook toepasbaar met andere paginabouwers of via HTML.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <p class="step-title">Motion graphics toevoegen</p>
+        <p class="step-body">De lottie-bestanden worden geladen via een HTML-widget. Per animatie stel ik de trigger in: meestal scroll-gestuurd. Soms schrijf ik JavaScript om een animatie frame-nauwkeurig te laten pauzeren bij een specifieke tekst.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <p class="step-title">Mobiele responsiveness</p>
+        <p class="step-body">De pagina is desktop-first ontworpen maar werkt volledig op mobiel. Animaties die op een klein scherm afleiden worden uitgeschakeld voor mobiele bezoekers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="img-grid">
+    <div class="img-grid-item">
+      <img src="Scherm_afbeelding_2026-05-29_om_15_30_59.png" alt="Campagneblok in Elementor">
+      <p class="img-caption" style="margin-top:8px">Gepersonaliseerde campagne in Elementor</p>
+    </div>
+    <div class="img-grid-item">
+      <img src="Scherm_afbeelding_2026-05-29_om_15_30_21.png" alt="Lottie HTML code">
+      <p class="img-caption" style="margin-top:8px">Lottie-animatie via HTML-widget</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="section-tag">Motion Graphics</p>
+  <h2 class="section-title">Animaties die de functie uitleggen</h2>
+  <p class="section-body">In Figma bouw ik de assets die ik nodig heb voor de animaties. Via een plugin importeer ik het Figma-bestand direct in Adobe After Effects. Alle animaties zijn zo eenvoudig mogelijk gehouden, alleen wat de boodschap versterkt. Na export als JSON-bestand worden ze als lottie-animatie geladen. Lottie-bestanden zijn klein, vectorgebaseerd en schaalbaar op elk scherm.</p>
+  <img src="Scherm_afbeelding_2026-05-29_om_15_33_50.png" alt="After Effects timeline" class="img-full">
+  <p class="img-caption">Animatietimeline in Adobe After Effects</p>
+
+  <div style="margin-top:48px;">
+    <p style="font-family:'Courier New',monospace;font-size:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:20px">Live animaties</p>
+    <p class="section-body" style="margin-bottom:32px">Hieronder twee van de lottie-animaties zoals ze op de pagina staan. Ze zijn vectorgebaseerd en schaalbaar op elk scherm.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div style="background:#f0f7ff;border-radius:16px;overflow:hidden;border:1px solid #d0e8ef;">
+        <div style="padding:24px;min-height:200px;display:flex;align-items:center;justify-content:center;">
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
+          <div id="lottie-1" style="width:100%;max-width:280px;"></div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #d0e8ef;background:white;">
+          <p style="font-size:13px;font-weight:700;color:#000;">Profielverrijking</p>
+          <p style="font-size:12px;color:var(--muted);font-family:'Courier New',monospace;">Profielverrijkingen_v3.json</p>
+        </div>
+      </div>
+      <div style="background:#f0f7ff;border-radius:16px;overflow:hidden;border:1px solid #d0e8ef;">
+        <div style="padding:24px;min-height:200px;display:flex;align-items:center;justify-content:center;">
+          <div id="lottie-2" style="width:100%;max-width:280px;"></div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #d0e8ef;background:white;">
+          <p style="font-size:13px;font-weight:700;color:#000;">Gepersonaliseerde campagnes</p>
+          <p style="font-size:12px;color:var(--muted);font-family:'Courier New',monospace;">Gepersonaliseerde_campagnes.json</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="results-section">
+  <div class="results-inner">
+    <p class="results-tag">Resultaten</p>
+    <h2 class="results-title">Aantoonbaar beter</h2>
+    <p class="results-sub">Na zorgvuldig testen is de pagina live gezet. De cijfers spreken voor zich.</p>
+    <div class="results-grid">
+      <div class="result-item">
+        <div class="result-num">1:32</div>
+        <div class="result-label">Gemiddelde sessieduur</div>
+        <div class="result-change">Was: 0:25</div>
+      </div>
+      <div class="result-item">
+        <div class="result-num">43%</div>
+        <div class="result-label">Bouncepercentage</div>
+        <div class="result-change">Was: 76%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2 class="cta-title">Meer werk bekijken</h2>
+  <a href="/portfolio/" class="cta-btn">← Portfolio</a>
+</section>
+
+<div class="video-modal" id="video-modal" onclick="closeVideo()">
+  <button class="video-modal-close" onclick="event.stopPropagation();closeVideo()">×</button>
+  <video id="modal-video" controls onclick="event.stopPropagation()">
+    <source id="modal-video-src" src="" type="video/webm">
+  </video>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">×</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 40) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+function openLightbox(src, alt) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-img').alt = alt;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') { closeLightbox(); closeVideo(); }
+});
+
+function openVideo(src) {
+  const modal = document.getElementById('video-modal');
+  const video = document.getElementById('modal-video');
+  document.getElementById('modal-video-src').src = src;
+  video.load();
+  video.play();
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideo() {
+  const modal = document.getElementById('video-modal');
+  const video = document.getElementById('modal-video');
+  video.pause();
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Lottie animaties via jsDelivr CDN
+if (typeof lottie !== 'undefined') {
+  try {
+    lottie.loadAnimation({ container: document.getElementById('lottie-1'), renderer: 'svg', loop: true, autoplay: true, path: 'https://cdn.jsdelivr.net/gh/supershief/portfolio@main/webpagina-en-motion-graphics/Profielverrijkingen_v3.json' });
+    lottie.loadAnimation({ container: document.getElementById('lottie-2'), renderer: 'svg', loop: true, autoplay: true, path: 'https://cdn.jsdelivr.net/gh/supershief/portfolio@main/webpagina-en-motion-graphics/Gepersonaliseerde_campagnes_-_alleen_campagne_v2.json' });
+  } catch(e) { console.log('Lottie fout:', e); }
+}
+</script>
+</body>
+</html>
